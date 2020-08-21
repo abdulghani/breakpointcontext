@@ -44,7 +44,7 @@ you can put your own config to define your own set of breakpoints
 
 const MyComponent = () => {
   return (
-     <BreakpointContext option={myBreakpointConfig}>
+     <BreakpointContext breakpoints={myBreakpoints}>
       <YourSuperAwesomeChildren>
     </BreakpointContext>
   )
@@ -55,10 +55,7 @@ const MyComponent = () => {
 the option is typed as such
 
 ```typescript
-declare interface BreakpointOption {
-  default: string; // default breakpoint such as xs, sm, etc
-  breakpoints: {
-    [keys: string]: number; // set of breakpoint value tied to the key as the label
-  };
-}
+type breakpoints = {
+  [keys: string]: number; // set of breakpoint value tied to the key as the label
+};
 ```

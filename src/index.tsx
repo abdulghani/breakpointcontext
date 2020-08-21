@@ -6,17 +6,21 @@ import React, {
   useEffect,
   useContext
 } from "react";
-import { BreakpointOption, defaultBreakpointOption } from "./constants";
+import { Breakpoints, defaultBreakpoints } from "./constants";
 
 const breakpointContext = createContext<string>("");
 
-const useHook = (breakpointOption: BreakpointOption) => {
-  const { default: defaultBreakpoint, breakpoints } = breakpointOption;
-  const [breakpoint, setBreakpoint] = useState<string>("");
-  const breakpointKeys = useMemo(() => Object.keys(breakpoints), [breakpoints]);
+const useHook = (breakpoints: Breakpoints) => {
+  const breakpointKeys = useMemo(
+    () =>
+      Object.entries(breakpoints)
+        .sort((a, b) => a[1] - b[1])
+        .map((item) => item[0]),
+    [breakpoints]
+  );
   const determineBreakpoint = useCallback(
     (n: number) => {
-      let tempBreakpoint = defaultBreakpoint;
+      let tempBreakpoint = breakpointKeys[0];
       for (let i = 0; i < breakpointKeys.length; i++) {
         if (n < breakpoints[breakpointKeys[i]]) break;
         tempBreakpoint = breakpointKeys[i];
@@ -25,30 +29,33 @@ const useHook = (breakpointOption: BreakpointOption) => {
     },
     [breakpointKeys]
   );
+  const [breakpoint, setBreakpoint] = useState<string>(() =>
+    determineBreakpoint(window.innerWidth)
+  );
   const shouldUpdateBreakpoint = useCallback(
     (e: any) => {
       const tempBreakpoint = determineBreakpoint(e.target.innerWidth);
       if (tempBreakpoint !== breakpoint) setBreakpoint(tempBreakpoint);
     },
-    [determineBreakpoint]
+    [breakpoint, determineBreakpoint]
   );
 
   useEffect(() => {
     window.addEventListener("resize", shouldUpdateBreakpoint);
     return () => window.removeEventListener("resize", shouldUpdateBreakpoint);
-  }, []);
+  });
 
   return { breakpoint };
 };
 
 const BreakpointProvider = ({
   children,
-  option
+  breakpoints
 }: {
   children: React.ReactElement;
-  option?: BreakpointOption;
+  breakpoints?: Breakpoints;
 }) => {
-  const hook = useHook(option ?? defaultBreakpointOption);
+  const hook = useHook(breakpoints ?? defaultBreakpoints);
 
   return (
     <breakpointContext.Provider value={hook.breakpoint}>

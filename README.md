@@ -6,7 +6,7 @@ a react.js hook for breakpoint that's provided with context for efficient checki
 
 use it as simple as
 
-```tsx
+```typescript
 import BreakpointContext, { useBreakpoint } from "@abdulghani/breakpointcontext";
 
 const MyComponent = () => {
@@ -30,7 +30,7 @@ const YourSuperAwesomeChildren = () => {
 
 you can put your own config to define your own set of breakpoints
 
-```tsx
+```typescript
 
 const MyComponent = () => {
   return (

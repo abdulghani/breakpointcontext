@@ -1,6 +1,6 @@
 {
-  "name": "breakpointcontext",
-  "version": "1.0.0",
+  "name": "@abdulghani/breakpointcontext",
+  "version": "1.0.1",
   "description": "react.js breakpoint hook provided with context",
   "homepage": "https://github.com/abdulghani/breakpointcontext",
   "main": "build/index.js",

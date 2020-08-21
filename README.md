@@ -2,6 +2,16 @@
 
 a react.js hook for breakpoint that's provided with context for efficient checking
 
+## Install
+
+get it from yarn/npm whatever
+
+```
+yarn add @abdulghani/breakpointcontext
+
+npm install @abdulghani/breakpointcontext
+```
+
 ## Usage
 
 use it as simple as

@@ -30,7 +30,7 @@ const useHook = (breakpoints: Breakpoints) => {
     [breakpointKeys]
   );
   const [breakpoint, setBreakpoint] = useState<string>(() =>
-    determineBreakpoint(window.innerWidth)
+    determineBreakpoint(global.window ? window.innerWidth : 1000)
   );
   const shouldUpdateBreakpoint = useCallback(
     (e: any) => {
@@ -41,8 +41,10 @@ const useHook = (breakpoints: Breakpoints) => {
   );
 
   useEffect(() => {
-    window.addEventListener("resize", shouldUpdateBreakpoint);
-    return () => window.removeEventListener("resize", shouldUpdateBreakpoint);
+    if (global.window) {
+      window.addEventListener("resize", shouldUpdateBreakpoint);
+      return () => window.removeEventListener("resize", shouldUpdateBreakpoint);
+    }
   });
 
   return { breakpoint };
